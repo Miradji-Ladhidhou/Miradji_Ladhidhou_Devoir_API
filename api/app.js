@@ -1,22 +1,23 @@
-// Fichier de configuration de l'application express
+// Importation des modules nécessaires
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-// Importation des routes
+// Importation des routeurs et de la base de données
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const mongodb = require('./db/mongo');
 const { version } = require('os');
 
+// Initialisation de la connexion à la base de données
 mongodb.initClientDbConnection();
 
-// Création de l'application express
+// Création de l'application Express
 var app = express();
 
-// Déclaration des middlewares utilisateur par l'application
+// Configuration des middlewares
 app.use(cors({
     exposedHeaders:['authorization'],
     origin: '*'
@@ -27,13 +28,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Définition des routes de l'application
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
+// Gestion des erreurs 404
 app.use(function(req, res, next){
     res.status(404).json({name: 'API', version: '1.0', status: 404, message: 'not_found'});
 });
 
-// exportation de l'application qui sera utilisée par le fichier www qui démarre le serveur
+// Exportation de l'application
 module.exports = app;
