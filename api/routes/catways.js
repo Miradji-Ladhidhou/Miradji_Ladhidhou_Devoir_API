@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const catwayService = require('../services/catways');
+var catwayService = require('../services/catways');
 
 // Route pour lister tous les catways
 router.get('/', catwayService.getAllCatways);

@@ -3,15 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require('cors');
+var cors = require('cors');
 
 // Importation des routeurs et de la base de données
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const mongodb = require('./db/mongo');
-const { version } = require('os');
-const reservationsRoutes = require('./routes/reservations');
-const catwaysRoutes = require('./routes/catways');
+var mongodb = require('./db/mongo');
+var { version } = require('os');
+var reservationsRoutes = require('./routes/reservations');
+var catwaysRoutes = require('./routes/catways');
 
 // Initialisation de la connexion à la base de données
 mongodb.initClientDbConnection();
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Définition des routes de l'application
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/reservations', reservationsRoutes);
+app.use('/', reservationsRoutes);
 app.use('/catways', catwaysRoutes);
 
 // Gestion des erreurs 404

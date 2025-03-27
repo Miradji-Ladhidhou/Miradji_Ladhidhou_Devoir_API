@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const service = require('../services/users');
+var express = require('express');
+var router = express.Router();
+var service = require('../services/users');
 
 router.get('/', service.getAll); // Lister tous les utilisateurs
 router.get('/:email', service.getByEmail); // Récupérer un utilisateur par email

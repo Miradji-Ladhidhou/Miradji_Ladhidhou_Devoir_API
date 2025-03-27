@@ -3,10 +3,10 @@ var express = require('express');
 var router = express.Router();
 
 // Importation du fichier de gestion des routes des utilisateurs
-const userRoute = require('../routes/users');
+var userRoute = require('../routes/users');
 
 // Importation du module mongoose 
-const { version } = require('mongoose');
+var { version } = require('mongoose');
 
 // Définition de la route principale ("/") qui retourne des informations sur l'API
 router.get('/', async (req, res) => {

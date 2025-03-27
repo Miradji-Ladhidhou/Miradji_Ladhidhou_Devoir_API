@@ -1,7 +1,7 @@
 
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const catwaySchema = new mongoose.Schema({
+var catwaySchema = new mongoose.Schema({
   catwayNumber: { 
     type: String, 
     required: true, 
