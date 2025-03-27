@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const mongodb = require('./db/mongo');
 const { version } = require('os');
+const reservationsRoutes = require('./routes/reservations');
 
 // Initialisation de la connexion à la base de données
 mongodb.initClientDbConnection();
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Définition des routes de l'application
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/reservations', reservationsRoutes);
 
 // Gestion des erreurs 404
 app.use(function(req, res, next){
