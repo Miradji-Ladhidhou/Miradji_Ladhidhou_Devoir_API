@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 const mongodb = require('./db/mongo');
 const { version } = require('os');
 const reservationsRoutes = require('./routes/reservations');
+const catwaysRoutes = require('./routes/catways');
 
 // Initialisation de la connexion à la base de données
 mongodb.initClientDbConnection();
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/reservations', reservationsRoutes);
+app.use('/catways', catwaysRoutes);
 
 // Gestion des erreurs 404
 app.use(function(req, res, next){
