@@ -37,4 +37,11 @@ router.post('/login', async (req, res) => {
   res.json({ message: 'Connexion réussie', token });
 });
 
+// Déconnexion (le client doit supprimer le token)
+router.get('/logout', async (req, res) => {
+  res.json({ message: 'Déconnexion réussie. Supprimez le token côté client.' });
+}
+);
+
+
 module.exports = router;

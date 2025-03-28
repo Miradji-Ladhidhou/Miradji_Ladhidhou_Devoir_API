@@ -5,8 +5,8 @@ var bcrypt = require('bcrypt'); // Import de bcrypt
 var userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
-});
+    password: { type: String, required: true, minlength: 6 },
+}, { timestamps: true});
 
 // Middleware pour hasher le mot de passe avant de l'enregistrer
 userSchema.pre('save', async function (next) {

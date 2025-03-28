@@ -5,6 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+// Importation du module dotenv
+const dotenv = require('dotenv');
+dotenv.config();
+
+
+// Importation du routeur d'authentification
+const authRouter = require('./routes/auth');
+
+
 // Importation des routeurs et de la base de données
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -29,6 +38,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/auth', authRouter);
+
+
 
 // Définition des routes de l'application
 app.use('/', indexRouter);
