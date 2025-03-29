@@ -19,7 +19,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mongodb = require('./db/mongo');
 var { version } = require('os');
-var reservationsRoutes = require('./routes/reservations');
+var reservationsRouter = require('./routes/reservations');
 var catwaysRoutes = require('./routes/catways');
 
 // Initialisation de la connexion à la base de données
@@ -38,15 +38,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/auth', authRouter);
-
 
 
 // Définition des routes de l'application
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', reservationsRoutes);
+app.use('/', reservationsRouter);
 app.use('/catways', catwaysRoutes);
+app.use('/auth', authRouter);
 
 // Gestion des erreurs 404
 app.use(function(req, res, next){
