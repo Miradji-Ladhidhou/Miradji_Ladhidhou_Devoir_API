@@ -4,40 +4,30 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var app = express();
-
-//ejs
-app.set('views', './views');
-app.set('view engine', 'ejs');
-
-app.get('/', (req, res, next) => {
-    res.render('index');
-});
-
-// Importation du module dotenv
-const dotenv = require('dotenv');
-dotenv.config();
+var session = require('express-session');
 
 
-// Importation du routeur d'authentification
-const authRouter = require('./routes/auth');
-
-
-// Importation des routeurs et de la base de données
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var mongodb = require('./db/mongo');
-var { version } = require('os');
-var reservationsRouter = require('./routes/reservations');
-var catwaysRoutes = require('./routes/catways');
-
-// Initialisation de la connexion à la base de données
-mongodb.initClientDbConnection();
+require('dotenv').config();
 
 // Création de l'application Express
 var app = express();
 
-// Configuration des middlewares
+// Importation des routeurs et de la base de données
+const authRouter = require('./routes/auth');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var mongodb = require('./db/mongo');
+var reservationsRouter = require('./routes/reservations');
+var catwaysRoutes = require('./routes/catways');
+
+
+mongodb.initClientDbConnection();
+
+//ejs
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Routes de l'application
 app.use(cors({
     exposedHeaders:['authorization'],
     origin: '*'
@@ -48,13 +38,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 // 1 heure
+    }
+}));
 
-// Définition des routes de l'application
+
+var dashboardRouter = require('./routes/dashboard');
+app.use('/', dashboardRouter);
+
+
+
+//Route pour la page d'accueil
+app.get('/', (req, res, next) => {
+    res.render('index');
+});
+
+
+// Définition des routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/', reservationsRouter);
 app.use('/catways', catwaysRoutes);
 app.use('/auth', authRouter);
+
 
 // Gestion des erreurs 404
 app.use(function(req, res, next){

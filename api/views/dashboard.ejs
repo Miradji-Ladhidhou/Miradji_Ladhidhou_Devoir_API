@@ -15,7 +15,12 @@
         <a href="/auth/logout">Se Déconnecter</a>
     </nav>
     <h1>Tableau de Bord</h1>
-    <p>Bienvenue, <%= user.name %> (<%= user.email %>)</p>
+    <% if (user) { %>
+        <p>Bienvenue, <%= user.name %> (<%= user.email %>)</p>
+    <% } else { %>
+        <p>Bienvenue, utilisateur inconnu</p>
+    <% } %>
+    
     <p>Date du jour : <%= new Date().toLocaleDateString() %></p>
     <h2>Réservations en cours</h2>
     <table>
@@ -28,14 +33,21 @@
             </tr>
         </thead>
         <tbody>
-            <% reservations.forEach(reservation => { %>
+            <% if (reservations && reservations.length > 0) { %>
+                <% reservations.forEach(reservation => { %>
+                    <tr>
+                        <td><%= reservation.catway %></td>
+                        <td><%= reservation.client %></td>
+                        <td><%= reservation.date %></td>
+                        <td><%= reservation.status %></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
                 <tr>
-                    <td><%= reservation.catway %></td>
-                    <td><%= reservation.client %></td>
-                    <td><%= reservation.date %></td>
-                    <td><%= reservation.status %></td>
+                    <td colspan="4">Aucune réservation en cours</td>
                 </tr>
-            <% }); %>
+            <% } %>
+            
         </tbody>
     </table>
 </body>

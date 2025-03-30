@@ -25,27 +25,32 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Route pour connecter un utilisateur et générer un JWT
+// Route de connexion
 router.post('/login', async (req, res) => {
   try {
-    var { email, password } = req.body;
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-    // Vérifier si l'utilisateur existe
-    var user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Email ou mot de passe incorrect.' });
+    if (!user) return res.status(400).json({ message: "Email ou mot de passe incorrect." });
 
-    // Vérifier le mot de passe avec bcrypt
-    var isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Email ou mot de passe incorrect.' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Email ou mot de passe incorrect." });
 
-    // Créer un token JWT
-    var token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Générer un token JWT
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ message: 'Connexion réussie', token });
+    // Stocker le token dans un cookie sécurisé
+    res.cookie("token", token, { httpOnly: true, secure: false }); // Secure: true en production
+
+    // Stocker l'ID utilisateur en session
+    req.session.userId = user._id;
+
+    res.redirect('/dashboard'); // Redirection après connexion
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 });
+
 
 // Déconnexion (le client doit supprimer le token)
 router.get('/logout', async (req, res) => {
