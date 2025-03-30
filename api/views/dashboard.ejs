@@ -1,0 +1,42 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/catways">Gestion des Catways</a>
+        <a href="/reservations">Gestion des Réservations</a>
+        <a href="/users">Gestion des Utilisateurs</a>
+        <a href="/docs">Documentation API</a>
+        <a href="/auth/logout">Se Déconnecter</a>
+    </nav>
+    <h1>Tableau de Bord</h1>
+    <p>Bienvenue, <%= user.name %> (<%= user.email %>)</p>
+    <p>Date du jour : <%= new Date().toLocaleDateString() %></p>
+    <h2>Réservations en cours</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Catway</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reservations.forEach(reservation => { %>
+                <tr>
+                    <td><%= reservation.catway %></td>
+                    <td><%= reservation.client %></td>
+                    <td><%= reservation.date %></td>
+                    <td><%= reservation.status %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<html>
+<head>
+    <title>Gestion des Utilisateurs</title>
+</head>
+<body>
+    <h1>Utilisateurs</h1>
+    <a href="/dashboard">Retour au Tableau de Bord</a>
+    <ul>
+        <% users.forEach(user => { %>
+            <li><%= user.name %> - <%= user.email %></li>
+        <% }); %>
+    </ul>
+</body>
+</html>

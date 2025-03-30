@@ -1,0 +1,14 @@
+<html>
+<head>
+    <title>Gestion des Réservations</title>
+</head>
+<body>
+    <h1>Réservations</h1>
+    <a href="/dashboard">Retour au Tableau de Bord</a>
+    <ul>
+        <% reservations.forEach(reservation => { %>
+            <li><%= reservation.client %> - <%= reservation.date %> - <%= reservation.status %></li>
+        <% }); %>
+    </ul>
+</body>
+</html>

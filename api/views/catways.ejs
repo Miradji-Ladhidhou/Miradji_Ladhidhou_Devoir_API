@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>Gestion des Catways</title>
+</head>
+<body>
+    <h1>Catways</h1>
+    <a href="/dashboard">Retour au Tableau de Bord</a>
+    <form action="/catways" method="POST">
+        <input type="text" name="name" placeholder="Nom du Catway" required>
+        <button type="submit">Ajouter</button>
+    </form>
+    <ul>
+        <% catways.forEach(catway => { %>
+            <li><%= catway.name %> <a href="/catways/delete/<%= catway._id %>">Supprimer</a></li>
+        <% }); %>
+    </ul>
+</body>
+</html>
