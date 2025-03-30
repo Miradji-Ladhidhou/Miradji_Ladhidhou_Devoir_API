@@ -41,7 +41,7 @@ exports.update = async (req, res) => {
         var reservation = await Reservation.findOneAndUpdate(
             { _id: req.params.idReservation, catwayNumber: req.params.id },
             req.body,
-            { new: true, runValidators: true } // ✅ Retourne la version mise à jour
+            { new: true, runValidators: true } // Retourne la version mise à jour
         );
         if (!reservation) return res.status(404).json({ message: 'Réservation non trouvée' });
         res.json(reservation);
