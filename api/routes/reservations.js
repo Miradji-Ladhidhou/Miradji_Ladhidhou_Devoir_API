@@ -1,20 +1,73 @@
 var express = require('express');
 var router = express.Router();
-var reservationService = require('../services/reservations');
+var Reservation = require('../models/reservation');
 
-// Route pour récupérer toutes les réservations d'un catway
-router.get('/catways/:id/reservations', reservationService.getAllByCatway);
+// Afficher toutes les réservations
+router.get('/', async (req, res) => {
+    try {
+        const reservations = await Reservation.find();
+        res.render('reservations', { reservations });
+    } catch (err) {
+        console.error("Erreur récupération réservations :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
 
-// Route pour récupérer une réservation spécifique
-router.get('/catways/:id/reservations/:idReservation', reservationService.getById);
+// Afficher le formulaire pour ajouter une réservation
+router.get('/new', (req, res) => {
+    res.render('newReservation');
+});
 
-// Route pour créer une nouvelle réservation
-router.post('/catways/:id/reservations', reservationService.add);
+// Ajouter une nouvelle réservation
+router.post('/', async (req, res) => {
+    try {
+        const { catwayNumber, clientName, boatName, startDate, endDate } = req.body;
+        if (!catwayNumber || !clientName || !boatName || !startDate || !endDate) {
+            return res.status(400).send("Tous les champs sont requis.");
+        }
 
-// Route pour mettre à jour une réservation
-router.put('/catways/:id/reservations/:idReservation', reservationService.update);
+        const newReservation = new Reservation({ catwayNumber, clientName, boatName, startDate, endDate });
+        await newReservation.save();
+        res.redirect('/reservations');
+    } catch (err) {
+        console.error("Erreur ajout réservation :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
 
-// Route pour supprimer une réservation
-router.delete('/catways/:id/reservations/:idReservation', reservationService.delete);
+// Afficher les détails d'une réservation par catwayNumber
+router.get('/:catwayNumber', async (req, res) => {
+    try {
+        const reservation = await Reservation.findOne({ catwayNumber: req.params.catwayNumber });
+        if (!reservation) return res.status(404).send("Réservation non trouvée.");
+        res.render('reservationDetail', { reservation });
+    } catch (err) {
+        console.error("Erreur récupération réservation :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+// Modifier une réservation par catwayNumber
+router.put('/edit/:catwayNumber', async (req, res) => {
+    try {
+        const { clientName, boatName, startDate, endDate } = req.body;
+        await Reservation.findOneAndUpdate({ catwayNumber: req.params.catwayNumber }, { clientName, boatName, startDate, endDate });
+        res.redirect('/reservations');
+    } catch (err) {
+        console.error("Erreur mise à jour réservation :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+// Supprimer une réservation par catwayNumber
+router.delete('/delete/:catwayNumber', async (req, res) => {
+    try {
+        await Reservation.findOneAndDelete({ catwayNumber: req.params.catwayNumber });
+        res.redirect('/reservations');
+    } catch (err) {
+        console.error("Erreur suppression réservation :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
 
 module.exports = router;

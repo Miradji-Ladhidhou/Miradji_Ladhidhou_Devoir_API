@@ -6,7 +6,6 @@ var logger = require('morgan');
 var cors = require('cors');
 var session = require('express-session');
 
-
 require('dotenv').config();
 
 // Création de l'application Express
@@ -20,24 +19,29 @@ var mongodb = require('./db/mongo');
 var reservationsRouter = require('./routes/reservations');
 var catwaysRoutes = require('./routes/catways');
 
-
+// Connexion à MongoDB
 mongodb.initClientDbConnection();
 
-//ejs
+// ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Retirer la gestion du favicon si non nécessaire
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 // Routes de l'application
 app.use(cors({
-    exposedHeaders:['authorization'],
+    exposedHeaders: ['authorization'],
     origin: '*'
 }));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Configuration de la session
 app.use(session({
     secret: process.env.JWT_SECRET,
     resave: false,
@@ -47,31 +51,25 @@ app.use(session({
     }
 }));
 
-
+// Définition des routes
 var dashboardRouter = require('./routes/dashboard');
 app.use('/', dashboardRouter);
 
-
-
-//Route pour la page d'accueil
 app.get('/', (req, res, next) => {
     res.render('index');
 });
 
-
-// Définition des routes
+// Définition des autres routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', reservationsRouter);
+app.use('/reservations', reservationsRouter);  // Assure-toi que la route pour les réservations est correcte
 app.use('/catways', catwaysRoutes);
 app.use('/auth', authRouter);
 
-
 // Gestion des erreurs 404
-app.use(function(req, res, next){
-    res.status(404).json({name: 'API', version: '1.0', status: 404, message: 'not_found'});
+app.use(function(req, res, next) {
+    res.status(404).json({ name: 'API', version: '1.0', status: 404, message: 'not_found' });
 });
-
 
 // Exportation de l'application
 module.exports = app;

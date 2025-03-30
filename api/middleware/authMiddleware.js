@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 // Middleware pour vérifier si l'utilisateur est authentifié via JWT
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token || req.header('Authorization')?.replace("Bearer ", "");
