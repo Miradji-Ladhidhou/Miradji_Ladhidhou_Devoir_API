@@ -4,6 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var app = express();
+
+//ejs
+app.set('views', './views');
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res, next) => {
+    res.render('index');
+});
 
 // Importation du module dotenv
 const dotenv = require('dotenv');
@@ -51,6 +60,7 @@ app.use('/auth', authRouter);
 app.use(function(req, res, next){
     res.status(404).json({name: 'API', version: '1.0', status: 404, message: 'not_found'});
 });
+
 
 // Exportation de l'application
 module.exports = app;
