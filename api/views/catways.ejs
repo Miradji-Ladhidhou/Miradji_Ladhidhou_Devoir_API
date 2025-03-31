@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Catways</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<header>
+    <nav>
+        <a href="/dashboard">Tableau de bord</a>
+        <a href="/catways">Gestion des Catways</a>
+        <a href="/reservations">Gestion des Réservations</a>
+        <a href="/users">Gestion des Utilisateurs</a>
+        <a href="/public/docs/documentation.md" target="_blank">Voir la documentation</a>
+        <a href="/auth/logout">Se Déconnecter</a>
+    </nav>
+</header>
+<body>
+    <h1>Gestion des Catways</h1>
+    <a href="/dashboard">Retour au Tableau de Bord</a>
+    
+    <h2>Ajouter un Catway</h2>
+    <form action="/catways" method="POST">
+        <input type="number" name="catwayNumber" placeholder="Numéro du Catway" required>
+        <select name="catwayType">
+            <option value="short">Short</option>
+            <option value="long">Long</option>
+        </select>
+        <input type="text" name="catwayState" placeholder="État du Catway" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Liste des Catways</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>Type</th>
+                <th>État</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% catways.forEach(catway => { %>
+                <tr>
+                    <td><%= catway.catwayNumber %></td>
+                    <td><%= catway.catwayType %></td>
+                    <td><%= catway.catwayState %></td>
+                    <td>
+                        <a href="/catways/<%= catway._id %>">Détails</a> |
+                        <a href="/catways/delete/<%= catway._id %>" onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
