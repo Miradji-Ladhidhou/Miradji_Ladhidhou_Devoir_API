@@ -3,22 +3,28 @@ var express = require('express');
 var router = express.Router();
 
 // Importation du fichier de gestion des routes des utilisateurs
-const userRoute = require('../routes/users');
+var userRoute = require('../routes/users');
 
 // Importation du module mongoose 
-const { version } = require('mongoose');
+var { version } = require('mongoose');
 
-// Définition de la route principale ("/") qui retourne des informations sur l'API
-router.get('/', async (req, res) => {
-  res.status(200).json({
-    name: process.env.APP_NAME, // Nom de l'application récupéré depuis les variables d'environnement
-    version: '1.0', // Version de l'API
-    status: 200, // Code de statut HTTP pour indiquer que la requête est réussie
-    message: "Bienvenue sur l'API !" // Message de bienvenue
-  });
+/**
+ * Route principale de l'API
+ * @route GET /
+ * @param {Object} req - L'objet de requête
+ * @param {Object} res - L'objet de réponse
+ * @returns {void}
+ * @description Cette route renvoie la page d'accueil de l'API, affichée par `index.ejs`.
+ */
+router.get('/', (req, res) => {
+  res.render('index.ejs');
 });
 
-// Inclusion des routes spécifiques aux utilisateurs sous le préfixe "/users"
+/**
+ * Inclusion des routes spécifiques aux utilisateurs sous le préfixe "/users"
+ * @route /users
+ * @description Permet de gérer toutes les actions liées aux utilisateurs, comme l'inscription, la connexion, etc.
+ */
 router.use('/users', userRoute);
 
 // Exportation du routeur pour qu'il puisse être utilisé ailleurs dans l'application

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Réservations</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<header>
+    <nav>
+        <a href="/dashboard">Tableau de bord</a>
+        <a href="/catways">Gestion des Catways</a>
+        <a href="/reservations">Gestion des Réservations</a>
+        <a href="/users">Gestion des Utilisateurs</a>
+        <a href="/public/docs/documentation.md" target="_blank">Voir la documentation</a>
+        <a href="/auth/logout">Se Déconnecter</a>
+    </nav>
+</header>
+<body>
+    <h1>Gestion des Réservations</h1>
+
+    <h2>Ajouter une Réservation</h2>
+    <form action="/reservations" method="POST">
+        <div>
+            <label for="catwayNumber">Numéro de Catway</label>
+            <input type="text" id="catwayNumber" name="catwayNumber" required>
+        </div>
+        <div>
+            <label for="clientName">Nom du Client</label>
+            <input type="text" id="clientName" name="clientName" required>
+        </div>
+        <div>
+            <label for="boatName">Nom du Bateau</label>
+            <input type="text" id="boatName" name="boatName" required>
+        </div>
+        <div>
+            <label for="startDate">Date de début</label>
+            <input type="date" id="startDate" name="startDate" required>
+        </div>
+        <div>
+            <label for="endDate">Date de fin</label>
+            <input type="date" id="endDate" name="endDate" required>
+        </div>
+        <button type="submit">Ajouter la réservation</button>
+    </form>
+
+    <h2>Liste des Réservations</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Catway</th>
+                <th>Client</th>
+                <th>Bateau</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reservations.forEach(reservation => { %>
+                <tr>
+                    <td><%= reservation.catwayNumber %></td>
+                    <td><%= reservation.clientName %></td>
+                    <td><%= reservation.boatName %></td>
+                    <td><%= reservation.startDate.toISOString().split('T')[0] %></td>
+                    <td><%= reservation.endDate.toISOString().split('T')[0] %></td>
+                    <td>
+                        <a href="/reservations/<%= reservation._id %>">Détails</a> |
+                        <a href="/reservations/delete/<%= reservation._id %>" onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

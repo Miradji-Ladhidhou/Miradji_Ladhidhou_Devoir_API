@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail de la Réservation</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+    <h1>Détails de la Réservation</h1>
+    
+    <% if (reservation) { %>
+        <p><strong>Catway :</strong> <%= reservation.catwayNumber %></p>
+        <p><strong>Client :</strong> <%= reservation.clientName %></p>
+        <p><strong>Bateau :</strong> <%= reservation.boatName %></p>
+        <p><strong>Date de début :</strong> <%= reservation.startDate.toISOString().split('T')[0] %></p>
+        <p><strong>Date de fin :</strong> <%= reservation.endDate.toISOString().split('T')[0] %></p>
+
+        <h2>Modifier la Réservation</h2>
+        <form action="/reservations/edit/<%= reservation._id %>" method="POST">
+            <input type="text" name="clientName" value="<%= reservation.clientName %>" required>
+            <input type="text" name="boatName" value="<%= reservation.boatName %>" required>
+            <input type="date" name="startDate" value="<%= reservation.startDate.toISOString().split('T')[0] %>" required>
+            <input type="date" name="endDate" value="<%= reservation.endDate.toISOString().split('T')[0] %>" required>
+            <button type="submit">Modifier</button>
+        </form>
+
+        <br>
+        <a href="/reservations">Retour à la liste</a>
+    <% } else { %>
+        <p>Aucune réservation trouvée.</p>
+    <% } %>
+</body>
+</html>

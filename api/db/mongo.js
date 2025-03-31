@@ -1,8 +1,8 @@
 // Importation du module Mongoose pour interagir avec MongoDB
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // Définition des options de connexion à la base de données
-const clientOptions = {
+var clientOptions = {
     dbName: 'apinode', // Nom de la base de données à utiliser
 };
 
