@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = verified; // Stocke l'utilisateur vérifié dans req.user
+    req.user = verified; 
     next();
   } catch (err) {
     res.status(401).json({ message: 'Token invalide' });
@@ -21,13 +21,11 @@ const authMiddleware = (req, res, next) => {
 
 // Middleware pour vérifier si l'utilisateur est authentifié via session
 var requireAuth = (req, res, next) => {
-  // Assure-toi que l'utilisateur est authentifié via session
   if (!req.session.userId) {
-    return res.redirect('/login');  // Si non authentifié, redirige vers login
+    return res.redirect('/login'); 
   }
-  // Assure-toi que l'ID de l'utilisateur existe dans la session
-  req.user = { _id: req.session.userId };  // Ajouter l'ID de l'utilisateur dans req.user
-  next();  // Passe à la route suivante
+  req.user = { _id: req.session.userId };  
+  next();  
 };
 
 // Exporter les deux middlewares

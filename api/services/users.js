@@ -1,4 +1,4 @@
-var User = require('../models/user');// Import du modèle User
+var User = require('../models/user');
 
 // Récupérer tous les utilisateurs
 exports.getAll = async (req, res) => {

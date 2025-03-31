@@ -3,8 +3,8 @@ const Catway = require('../models/catway');
 // Récupérer tous les catways et afficher la vue
 exports.getAllCatways = async (req, res) => {
     try {
-        const catways = await Catway.find(); // Récupérer tous les catways depuis MongoDB
-        res.render('catways', { catways }); // Rendre la vue EJS
+        const catways = await Catway.find(); 
+        res.render('catways', { catways }); 
     } catch (error) {
         console.error('Erreur lors de la récupération des catways :', error);
         res.status(500).send("Erreur serveur");
@@ -18,7 +18,7 @@ exports.getCatwayById = async (req, res) => {
         if (!catway) {
             return res.status(404).send("Catway non trouvé");
         }
-        res.json(catway); // Retourner en JSON (si besoin)
+        res.json(catway); 
     } catch (error) {
         console.error('Erreur lors de la récupération du catway :', error);
         res.status(500).send("Erreur serveur");
@@ -31,7 +31,7 @@ exports.createCatway = async (req, res) => {
         const { name } = req.body;
         const newCatway = new Catway({ name });
         await newCatway.save();
-        res.redirect('/catways'); // Rediriger vers la liste après l'ajout
+        res.redirect('/catways'); 
     } catch (error) {
         console.error('Erreur lors de la création du catway :', error);
         res.status(500).send("Erreur serveur");
@@ -46,7 +46,7 @@ exports.updateCatway = async (req, res) => {
         if (!updatedCatway) {
             return res.status(404).send("Catway non trouvé");
         }
-        res.redirect('/catways'); // Redirection après mise à jour
+        res.redirect('/catways'); 
     } catch (error) {
         console.error('Erreur lors de la mise à jour du catway :', error);
         res.status(500).send("Erreur serveur");
@@ -57,7 +57,7 @@ exports.updateCatway = async (req, res) => {
 exports.deleteCatway = async (req, res) => {
     try {
         await Catway.findByIdAndDelete(req.params.id);
-        res.redirect('/catways'); // Rediriger après suppression
+        res.redirect('/catways'); 
     } catch (error) {
         console.error('Erreur lors de la suppression du catway :', error);
         res.status(500).send("Erreur serveur");

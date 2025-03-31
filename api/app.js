@@ -61,9 +61,11 @@ app.get('/', (req, res, next) => {
 // Définition des autres routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/reservations', reservationsRouter);  // Assure-toi que la route pour les réservations est correcte
+app.use('/reservations', reservationsRouter); 
 app.use('/catways', catwaysRoutes);
 app.use('/auth', authRouter);
+
+app.use('/public/docs', express.static(path.join(__dirname, 'public/docs')));
 
 // Gestion des erreurs 404
 app.use(function(req, res, next) {

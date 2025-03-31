@@ -2,7 +2,14 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
-// Afficher tous les utilisateurs
+/**
+ * Route pour afficher tous les utilisateurs.
+ * @route GET /users
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Affiche la vue 'users' avec la liste des utilisateurs.
+ * @throws {Error} - En cas d'erreur lors de la récupération des utilisateurs.
+ */
 router.get('/', async (req, res) => {
     try {
         const users = await User.find();
@@ -13,12 +20,26 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Afficher le formulaire pour ajouter un utilisateur
+/**
+ * Route pour afficher le formulaire de création d'un nouvel utilisateur.
+ * @route GET /users/new
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Affiche la vue 'newUser' pour ajouter un utilisateur.
+ */
 router.get('/new', (req, res) => {
-    res.render('newUser'); // Assure-toi d'avoir un fichier views/newUser.ejs
+    res.render('newUser'); 
 });
 
-// Ajouter un nouvel utilisateur
+/**
+ * Route pour ajouter un nouvel utilisateur dans la base de données.
+ * @route POST /users
+ * @param {Object} req - L'objet de requête HTTP contenant les informations de l'utilisateur.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Redirige vers la liste des utilisateurs après ajout.
+ * @throws {Error} - En cas d'erreur lors de l'ajout d'un utilisateur.
+ * @description Cette route crée un nouvel utilisateur et le sauvegarde dans la base de données.
+ */
 router.post('/', async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
@@ -42,26 +63,41 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Afficher le formulaire de modification
+/**
+ * Route pour afficher le formulaire de modification d'un utilisateur.
+ * @route GET /users/edit/:email
+ * @param {Object} req - L'objet de requête HTTP contenant l'email de l'utilisateur à modifier.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Affiche la vue 'editUser' avec les données de l'utilisateur à modifier.
+ * @throws {Error} - En cas d'erreur lors de la récupération de l'utilisateur.
+ */
 router.get('/edit/:email', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email });
         if (!user) return res.status(404).send("Utilisateur non trouvé.");
-        res.render('editUser', { user }); // Assure-toi d'avoir un fichier views/editUser.ejs
+        res.render('editUser', { user }); 
     } catch (err) {
         console.error("Erreur récupération utilisateur :", err);
         res.status(500).send("Erreur serveur");
     }
 });
 
-// Modifier un utilisateur
+/**
+ * Route pour modifier un utilisateur existant.
+ * @route POST /users/edit/:email
+ * @param {Object} req - L'objet de requête HTTP contenant les informations mises à jour de l'utilisateur.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Redirige vers la liste des utilisateurs après modification.
+ * @throws {Error} - En cas d'erreur lors de la mise à jour.
+ * @description Cette route permet de mettre à jour les informations d'un utilisateur existant dans la base de données.
+ */
 router.post('/edit/:email', async (req, res) => {
     try {
         const { username, role } = req.body;
         const updatedUser = await User.findOneAndUpdate(
             { email: req.params.email },
             { username, role },
-            { new: true } // Retourner le nouvel utilisateur mis à jour
+            { new: true }
         );
 
         if (!updatedUser) return res.status(404).send("Utilisateur non trouvé.");
@@ -73,19 +109,34 @@ router.post('/edit/:email', async (req, res) => {
     }
 });
 
+/**
+ * Route pour afficher les détails d'un utilisateur.
+ * @route GET /users/details/:email
+ * @param {Object} req - L'objet de requête HTTP contenant l'email de l'utilisateur.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Affiche la vue 'userDetail' avec les détails de l'utilisateur.
+ * @throws {Error} - En cas d'erreur lors de la récupération des détails de l'utilisateur.
+ */
 router.get('/details/:email', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email });
         if (!user) return res.status(404).send("Utilisateur non trouvé.");
 
-        res.render('userDetail', { user }); // Assure-toi d’avoir le fichier views/userDetail.ejs
+        res.render('userDetail', { user }); 
     } catch (err) {
         console.error("Erreur récupération utilisateur :", err);
         res.status(500).send("Erreur serveur");
     }
 });
 
-// Supprimer un utilisateur
+/**
+ * Route pour supprimer un utilisateur de la base de données.
+ * @route GET /users/delete/:email
+ * @param {Object} req - L'objet de requête HTTP contenant l'email de l'utilisateur à supprimer.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} - Redirige vers la liste des utilisateurs après suppression.
+ * @throws {Error} - En cas d'erreur lors de la suppression.
+ */
 router.get('/delete/:email', async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({ email: req.params.email });
@@ -97,6 +148,5 @@ router.get('/delete/:email', async (req, res) => {
         res.status(500).send("Erreur serveur");
     }
 });
-
 
 module.exports = router;
