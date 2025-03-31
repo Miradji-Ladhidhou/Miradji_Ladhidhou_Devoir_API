@@ -1,6 +1,6 @@
 var Reservation = require('../models/reservation');
 
-// 🔹 Lister toutes les réservations d'un catway
+// Lister toutes les réservations d'un catway
 exports.getAllByCatway = async (req, res) => {
     try {
         var reservations = await Reservation.find({ catwayNumber: req.params.id });
@@ -10,7 +10,7 @@ exports.getAllByCatway = async (req, res) => {
     }
 };
 
-// 🔹 Récupérer une réservation spécifique
+// Récupérer une réservation spécifique
 exports.getById = async (req, res) => {
     try {
         var reservation = await Reservation.findOne({ 
@@ -24,7 +24,7 @@ exports.getById = async (req, res) => {
     }
 };
 
-// 🔹 Ajouter une réservation à un catway
+// Ajouter une réservation à un catway
 exports.add = async (req, res) => {
     try {
         var newReservation = new Reservation({ ...req.body, catwayNumber: req.params.id });
@@ -35,7 +35,7 @@ exports.add = async (req, res) => {
     }
 };
 
-// 🔹 Modifier une réservation
+// Modifier une réservation
 exports.update = async (req, res) => {
     try {
         var reservation = await Reservation.findOneAndUpdate(
@@ -50,7 +50,7 @@ exports.update = async (req, res) => {
     }
 };
 
-// 🔹 Supprimer une réservation
+// Supprimer une réservation
 exports.delete = async (req, res) => {
     try {
         var reservation = await Reservation.findOneAndDelete({

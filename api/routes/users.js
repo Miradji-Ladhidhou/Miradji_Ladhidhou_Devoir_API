@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
-// 📌 Afficher tous les utilisateurs
+// Afficher tous les utilisateurs
 router.get('/', async (req, res) => {
     try {
         const users = await User.find();
@@ -13,12 +13,12 @@ router.get('/', async (req, res) => {
     }
 });
 
-// 📌 Afficher le formulaire pour ajouter un utilisateur
+// Afficher le formulaire pour ajouter un utilisateur
 router.get('/new', (req, res) => {
     res.render('newUser'); // Assure-toi d'avoir un fichier views/newUser.ejs
 });
 
-// 📌 Ajouter un nouvel utilisateur
+// Ajouter un nouvel utilisateur
 router.post('/', async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// 📌 Afficher le formulaire de modification
+// Afficher le formulaire de modification
 router.get('/edit/:email', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email });
@@ -54,7 +54,7 @@ router.get('/edit/:email', async (req, res) => {
     }
 });
 
-// 📌 Modifier un utilisateur
+// Modifier un utilisateur
 router.post('/edit/:email', async (req, res) => {
     try {
         const { username, role } = req.body;
@@ -85,7 +85,7 @@ router.get('/details/:email', async (req, res) => {
     }
 });
 
-// 📌 Supprimer un utilisateur
+// Supprimer un utilisateur
 router.get('/delete/:email', async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({ email: req.params.email });
