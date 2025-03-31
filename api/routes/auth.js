@@ -52,9 +52,17 @@ router.post('/login', async (req, res) => {
 });
 
 
-// Déconnexion (le client doit supprimer le token)
+
 router.get('/logout', async (req, res) => {
-  res.json({ message: 'Déconnexion réussie. Supprimez le token côté client.' });
+  // Détruire la session de l'utilisateur
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Erreur lors de la déconnexion.");
+    }
+    // Rediriger vers la page d'accueil (index.ejs)
+    res.redirect('/');
+  });
 });
+
 
 module.exports = router;

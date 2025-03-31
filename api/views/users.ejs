@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Utilisateurs</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
+<header>
+    <nav>
+        <a href="/dashboard">Tableau de bord</a>
+        <a href="/catways">Gestion des Catways</a>
+        <a href="/reservations">Gestion des Réservations</a>
+        <a href="/users">Gestion des Utilisateurs</a>
+        <a href="/docs">Documentation API</a>
+        <a href="/auth/logout">Se Déconnecter</a>
+    </nav>
+</header>
 <body>
     <h1>Liste des Utilisateurs</h1>
 
@@ -26,7 +36,6 @@
                     <td><%= user.email %></td>
                     <td>
                         <a href="/users/details/<%= user.email %>">Détails</a> | 
-                        <a href="/users/edit/<%= user.email %>">Modifier</a> |
                         <a href="/users/delete/<%= user.email %>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</a>
                     </td>
                 </tr>
@@ -45,7 +54,5 @@
         <button type="submit">Ajouter</button>
     </form>
 
-    <br>
-    <a href="/dashboard">Retour au Tableau de Bord</a>
 </body>
 </html>

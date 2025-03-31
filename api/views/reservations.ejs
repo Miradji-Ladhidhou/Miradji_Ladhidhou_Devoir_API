@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Réservations</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
+<header>
+    <nav>
+        <a href="/dashboard">Tableau de bord</a>
+        <a href="/catways">Gestion des Catways</a>
+        <a href="/reservations">Gestion des Réservations</a>
+        <a href="/users">Gestion des Utilisateurs</a>
+        <a href="/docs">Documentation API</a>
+        <a href="/auth/logout">Se Déconnecter</a>
+    </nav>
+</header>
 <body>
     <h1>Gestion des Réservations</h1>
-    <a href="/dashboard">Retour au Tableau de Bord</a>
 
     <h2>Ajouter une Réservation</h2>
     <form action="/reservations" method="POST">

@@ -35,10 +35,10 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Afficher les détails d'une réservation par catwayNumber
-router.get('/:catwayNumber', async (req, res) => {
+// Afficher les détails d'une réservation
+router.get('/:id', async (req, res) => {
     try {
-        const reservation = await Reservation.findOne({ catwayNumber: req.params.catwayNumber });
+        const reservation = await Reservation.findOne({ _id: req.params.id });
         if (!reservation) return res.status(404).send("Réservation non trouvée.");
         res.render('reservationDetail', { reservation });
     } catch (err) {
@@ -47,11 +47,11 @@ router.get('/:catwayNumber', async (req, res) => {
     }
 });
 
-// Modifier une réservation par catwayNumber
-router.put('/edit/:catwayNumber', async (req, res) => {
+// Modifier une réservation
+router.post('/edit/:id', async (req, res) => {
     try {
         const { clientName, boatName, startDate, endDate } = req.body;
-        await Reservation.findOneAndUpdate({ catwayNumber: req.params.catwayNumber }, { clientName, boatName, startDate, endDate });
+        await Reservation.findOneAndUpdate({ _id: req.params.id }, { clientName, boatName, startDate, endDate });
         res.redirect('/reservations');
     } catch (err) {
         console.error("Erreur mise à jour réservation :", err);
@@ -60,14 +60,31 @@ router.put('/edit/:catwayNumber', async (req, res) => {
 });
 
 // Supprimer une réservation par catwayNumber
-router.delete('/delete/:catwayNumber', async (req, res) => {
+router.get('/delete/:id', async (req, res) => {
     try {
-        await Reservation.findOneAndDelete({ catwayNumber: req.params.catwayNumber });
+        await Reservation.findOneAndDelete({ _id: req.params.id });
         res.redirect('/reservations');
     } catch (err) {
         console.error("Erreur suppression réservation :", err);
         res.status(500).send("Erreur serveur");
     }
 });
+
+router.get('/en-cours', async (req, res) => {
+    try {
+        const today = new Date();
+        const reservations = await Reservation.find({
+            startDate: { $lte: today }, // La réservation a déjà commencé
+            endDate: { $gte: today }   // La réservation n'est pas encore terminée
+        });
+
+        res.render('dashboard', { reservations });
+    } catch (err) {
+        console.error("Erreur récupération réservations en cours :", err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+
 
 module.exports = router;

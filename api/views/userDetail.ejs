@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails de l'Utilisateur</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <h1>Détails de l'Utilisateur</h1>
@@ -12,6 +12,19 @@
     <p><strong>Email :</strong> <%= user.email %></p>
 
     <br>
-    <a href="/users">Retour à la liste des utilisateurs</a>
+    
+    <h2>Modifier l'utilisateur</h2>
+
+    <form action="/users/edit/<%= user.email %>" method="POST">
+        <input type="text" name="username" value="<%= user.username %>" required>
+        <select name="role">
+            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>Utilisateur</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        </select>
+        <button type="submit">Modifier</button>
+    </form>
+
+    <br>
+    <a href="/users">Retour à la liste</a>
 </body>
 </html>

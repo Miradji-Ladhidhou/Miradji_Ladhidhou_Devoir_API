@@ -3,53 +3,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     
 </head>
-<body>
+<header>
     <nav>
-        <a href="/">Accueil</a>
+        <a href="/dashboard">Tableau de bord</a>
         <a href="/catways">Gestion des Catways</a>
         <a href="/reservations">Gestion des Réservations</a>
         <a href="/users">Gestion des Utilisateurs</a>
         <a href="/docs">Documentation API</a>
         <a href="/auth/logout">Se Déconnecter</a>
     </nav>
+</header>
+<body>
     <h1>Tableau de Bord</h1>
     <% if (user) { %>
-        <p>Bienvenue, <%= user.name %> (<%= user.email %>)</p>
+        <p>Bienvenue, (<%= user.username %> <%= user.email %>)</p>
     <% } else { %>
         <p>Bienvenue, utilisateur inconnu</p>
     <% } %>
     
     <p>Date du jour : <%= new Date().toLocaleDateString() %></p>
     <h2>Réservations en cours</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Catway</th>
-                <th>Client</th>
-                <th>Date</th>
-                <th>Statut</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% if (reservations && reservations.length > 0) { %>
-                <% reservations.forEach(reservation => { %>
-                    <tr>
-                        <td><%= reservation.catway %></td>
-                        <td><%= reservation.client %></td>
-                        <td><%= reservation.date %></td>
-                        <td><%= reservation.status %></td>
-                    </tr>
-                <% }); %>
-            <% } else { %>
+<table>
+    <thead>
+        <tr>
+            <th>Catway</th>
+            <th>Client</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (reservations.length > 0) { %>
+            <% reservations.forEach(reservation => { %>
                 <tr>
-                    <td colspan="4">Aucune réservation en cours</td>
+                    <td><%= reservation.catwayNumber %></td>
+                    <td><%= reservation.clientName %></td>
+                    <td><%= reservation.startDate.toISOString().split('T')[0] %></td>
+                    <td><%= reservation.endDate.toISOString().split('T')[0] %></td>
                 </tr>
-            <% } %>
-            
-        </tbody>
-    </table>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="4">Aucune réservation en cours</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
 </body>
 </html>
