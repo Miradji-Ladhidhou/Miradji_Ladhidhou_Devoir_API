@@ -27,7 +27,7 @@ var reservationSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now 
     } 
-})
+});
 
 // Empêcher une réservation où endDate est avant startDate
 reservationSchema.pre('save', function (next) {
