@@ -37,4 +37,4 @@ reservationSchema.pre('save', function (next) {
     next();
 });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = mongoose.model('reservation', reservationSchema);
