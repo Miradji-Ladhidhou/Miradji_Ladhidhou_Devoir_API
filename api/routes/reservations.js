@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Reservation = require('../models/reservation_tmp');
+var Reservation = require('../models/reservation');
 
 /**
  * Route pour afficher toutes les réservations.
