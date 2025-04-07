@@ -1,4 +1,4 @@
-var Reservation = require('../models/reservation');
+var Reservation = require('../models/reservation_tmp');
 
 // Lister toutes les réservations d'un catway
 exports.getAllByCatway = async (req, res) => {
