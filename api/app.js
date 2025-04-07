@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cors = require('cors');
 var session = require('express-session');
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
+
 require('dotenv').config();
 
 // Création de l'application Express
