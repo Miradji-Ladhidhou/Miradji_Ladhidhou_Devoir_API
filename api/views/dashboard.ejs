@@ -19,7 +19,7 @@
 <body>
     <h1>Tableau de Bord</h1>
     <% if (user) { %>
-        <p>Bienvenue, (<%= user.username %> <%= user.email %>)</p>
+        <p>Bienvenue, <%= user.username %> <%= user.email %></p>
     <% } else { %>
         <p>Bienvenue, utilisateur inconnu</p>
     <% } %>
